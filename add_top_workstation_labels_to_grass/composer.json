@@ -1,0 +1,34 @@
+{
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.theorchard.com"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:theorchard/orchard-features.git"
+        }
+    ],
+    "require": {
+        "orchard/features": "dev-master",
+        "phpoffice/phpexcel": "1.7.9"
+    },
+    "require-dev": {
+    },
+    "prefer_stable": true,
+    "autoload": {
+        "psr-0": {
+        },
+        "psr-4": {
+        },
+        "classmap": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-0": {
+        }
+    },
+    "config": {
+        "discard-changes": true
+    }
+}
