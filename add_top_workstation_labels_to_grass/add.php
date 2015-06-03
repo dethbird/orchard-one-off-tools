@@ -73,9 +73,33 @@ while ($row = mysql_fetch_object($res)) {
 }
 
 
+
+
+
 // echo $output;
 file_put_contents("grass.feature.labels.yml", $output);
 file_put_contents("grass.feature.labels.tab", $outputTabbed);
+
+
+// get a handful to test with that don't have grass
+$query = "SELECT vendor_id, IF(name,name,company) as name, priority, overall_priority, label_identifier from vendor where vendor_id NOT IN (" . implode(",", $new) . ") ORDER BY RAND() LIMIT 100";
+$res = mysql_query($query);
+$outputTabbed = '';
+$outputTabbed .= "vendor_id\tname\tpriority\toverall_priority\tlabel_identifier\n";
+
+while ($row = mysql_fetch_object($res)) {
+
+   // var_dump($row);
+    
+    $output .= "# ".$row->name." | priority: ". $row->priority ."\n";
+    $output .= "    - ".$row->vendor_id."\n";
+    $outputTabbed .= $row->vendor_id . "\t" . $row->name. "\t" . $row->priority. "\t" . $row->overall_priority. "\t" . $row->label_identifier . "\n";
+    echo $row->name."\n";
+}
+
+
+
+file_put_contents("grass.feature.labels.off.tab", $outputTabbed);
 
 
 
