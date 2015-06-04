@@ -25,7 +25,6 @@ foreach ($top_labels_spreadsheet as $line) {
 
 echo "labels found from .csv: " . count($top_labels) . "\n";
 
-
 // add only if they don't already exist in features.yml
 $count = 0;
 $next = array();
@@ -69,7 +68,7 @@ while ($row = mysql_fetch_object($res)) {
     $output .= "# ".$row->name." | priority: ". $row->priority ."\n";
     $output .= "    - ".$row->vendor_id."\n";
     $outputTabbed .= $row->vendor_id . "\t" . $row->name. "\t" . $row->priority. "\t" . $row->overall_priority. "\t" . $row->label_identifier . "\n";
-    echo $row->name."\n";
+    // echo $row->name."\n";
 }
 
 
@@ -82,10 +81,12 @@ file_put_contents("grass.feature.labels.tab", $outputTabbed);
 
 
 // get a handful to test with that don't have grass
-$query = "SELECT vendor_id, IF(name,name,company) as name, priority, overall_priority, label_identifier from vendor where vendor_id NOT IN (" . implode(",", $new) . ") ORDER BY RAND() LIMIT 100";
+$query = "SELECT vendor_id, IF(name,name,company) as name, priority, overall_priority, label_identifier FROM vendor WHERE vendor_id NOT IN (" . implode(",", $new) . ") AND priority < 3 ORDER BY RAND() LIMIT 250";
 $res = mysql_query($query);
 $outputTabbed = '';
 $outputTabbed .= "vendor_id\tname\tpriority\toverall_priority\tlabel_identifier\n";
+
+echo "found " . mysql_num_rows($res) . " non grass labels with priority < 3\n";
 
 while ($row = mysql_fetch_object($res)) {
 
@@ -94,7 +95,7 @@ while ($row = mysql_fetch_object($res)) {
     $output .= "# ".$row->name." | priority: ". $row->priority ."\n";
     $output .= "    - ".$row->vendor_id."\n";
     $outputTabbed .= $row->vendor_id . "\t" . $row->name. "\t" . $row->priority. "\t" . $row->overall_priority. "\t" . $row->label_identifier . "\n";
-    echo $row->name."\n";
+    // echo $row->name."\n";
 }
 
 
